@@ -1,25 +1,22 @@
 class Pub
 
-attr_accessor :name, :drinks, :till
+attr_accessor :name, :drinks, :till, :drink
 
-def initialize(name, drinks)
+def initialize(name, drink)
 
   @name = name
-  @drinks = drinks
+  @drinks = drink
   @till = 0
 
 end
 
 
-def sell_drink_change_till(drink_name, customer)
-  for drink in @drinks
-    if drink.name == drink_name
-      @till += drink.price
-      customer.wallet -= drink.price
-      return
-    end
+def sell_drink_change_till(drink, customer)
+   if customer.can_afford(drink) && customer.old_enough(18) && customer.too_drunk(10)
+    @till += drink.price
+    customer.wallet -= drink.price
+    customer.drunkeness_level += drink.alcohol_level
   end
-
 end
 
 
